@@ -1,14 +1,12 @@
 import React, { useState, useEffect } from 'react'
-import { StyleSheet, View, Text, SafeAreaView, Button } from 'react-native'
-import MonsterSlide from './src/components/MonsterSlide'
+import { StyleSheet, View, Image, Text, SafeAreaView, Button } from 'react-native'
 import Constants from 'expo-constants'
 
-const top = [require('./assets/monster1_head.png'), require('./assets/monster2_head.png'), require('./assets/monster3_head.png')]
-
-const mid = [require('./assets/monster1_body.png'), require('./assets/monster2_body.png'), require('./assets/monster3_body.png')]
-
-const bottom = [require('./assets/monster1_feet.png'), require('./assets/monster2_feet.png'), require('./assets/monster3_feet.png')]
-
+const slides = { 
+  top:  [require('./assets/monster1_head.png'), require('./assets/monster2_head.png'), require('./assets/monster3_head.png')],
+  mid: [require('./assets/monster1_body.png'), require('./assets/monster2_body.png'), require('./assets/monster3_body.png')],
+  bottom: [require('./assets/monster1_feet.png'), require('./assets/monster2_feet.png'), require('./assets/monster3_feet.png')]
+}
 
 export default function App() {
 
@@ -32,21 +30,21 @@ export default function App() {
       changeTextArea("Keep Trying!!")
     }
     
-    refreshTop( Math.floor(Math.random() * top.length) )
-    refreshMid( Math.floor(Math.random() * bottom.length) )  
-    refreshBottom( Math.floor(Math.random() * mid.length) )
+    refreshTop( Math.floor(Math.random() * slides.top.length) )
+    refreshMid( Math.floor(Math.random() * slides.bottom.length) )  
+    refreshBottom( Math.floor(Math.random() * slides.mid.length) )
     }
 
    return (
     <SafeAreaView style={styles.container}>
       <Text>{textArea}</Text>
       <View>
-        <MonsterSlide imageSrc={top[top]}/>
-        <MonsterSlide imageSrc={mid[mid]}/>
-        <MonsterSlide imageSrc={bottom[bottom]}/>
+        <Image source={slides.top[top]} style={styles.image} />
+        <Image source={slides.mid[top]} style={styles.image} />
+        <Image source={slides.bottom[top]} style={styles.image} />
       </View>
       <Button title="Click to start game!" onPress={shuffle}/>
-      {match ? <Text>You Won!!</Text>: <Text></Text>}
+      {match ? <Text>You Won!!</Text>: <Text>{textArea}</Text>}
     </SafeAreaView>
   );
 }
@@ -59,4 +57,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  image: {
+    resizeMode: 'contain',
+    height: 140
+  }
 });
