@@ -10,41 +10,32 @@ const slides = {
 
 export default function App() {
 
-  const [top, refreshTop] = useState(1)
-  const [bottom, refreshBottom] = useState(2)
-  const [mid, refreshMid] = useState(0)
+  const [match, toggleMatch] = useState(false)
   const [textArea, changeTextArea] = useState("")
-  const [match, setMatch] = useState(false)
+  const [topIndex, refreshTop] = useState(0)
+  const [midIndex, refreshMid] = useState(1)
+  const [bottomIndex, refreshBottom] = useState(2)
  
-  useEffect (()=>{ 
-    if(top === bottom && top === mid && bottom === mid){
-      setMatch(true)
-    }
-  })
+  useEffect (()=>{ bottomIndex === topIndex && midIndex === topIndex ? toggleMatch(true) : toggleMatch(false) })
 
-  const shuffle = () => {
-    if(match){
-      setMatch(false)
-      changeTextArea("")
-    }else{
-      changeTextArea("Keep Trying!!")
-    }
-    
+  const shuffle = () => {    
     refreshTop( Math.floor(Math.random() * slides.top.length) )
-    refreshMid( Math.floor(Math.random() * slides.bottom.length) )  
     refreshBottom( Math.floor(Math.random() * slides.mid.length) )
-    }
+    refreshMid( Math.floor(Math.random() * slides.bottom.length) )  
+    
+    match ? (toggleMatch(true), changeTextArea("You Won!!")) : changeTextArea("Keep Trying!!")   
+  }
 
    return (
     <SafeAreaView style={styles.container}>
       <Text>{textArea}</Text>
       <View>
-        <Image source={slides.top[top]} style={styles.image} />
-        <Image source={slides.mid[top]} style={styles.image} />
-        <Image source={slides.bottom[top]} style={styles.image} />
+        <Image source={slides.top[topIndex]} style={styles.image} />
+        <Image source={slides.mid[midIndex]} style={styles.image} />
+        <Image source={slides.bottom[bottomIndex]} style={styles.image} />
       </View>
       <Button title="Click to start game!" onPress={shuffle}/>
-      {match ? <Text>You Won!!</Text>: <Text>{textArea}</Text>}
+      {match ? <Text>You won, play again!</Text>: <Text>{textArea}</Text>}
     </SafeAreaView>
   );
 }
