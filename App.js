@@ -1,19 +1,55 @@
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { useState, useEffect } from 'react'
+import { StyleSheet, View, Image, Text, SafeAreaView, Button } from 'react-native'
+import Constants from 'expo-constants'
+
+const slides = { 
+  top:  [require('./assets/monster1_head.png'), require('./assets/monster2_head.png'), require('./assets/monster3_head.png')],
+  mid: [require('./assets/monster1_body.png'), require('./assets/monster2_body.png'), require('./assets/monster3_body.png')],
+  bottom: [require('./assets/monster1_feet.png'), require('./assets/monster2_feet.png'), require('./assets/monster3_feet.png')]
+}
 
 export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-    </View>
+
+  const [match, toggleMatch] = useState(false)
+  const [textArea, changeTextArea] = useState("")
+  const [topIndex, refreshTop] = useState(0)
+  const [midIndex, refreshMid] = useState(1)
+  const [bottomIndex, refreshBottom] = useState(2)
+ 
+  useEffect (()=>{ bottomIndex === topIndex && midIndex === topIndex ? toggleMatch(true) : toggleMatch(false) })
+
+  const shuffle = () => {    
+    refreshTop( Math.floor(Math.random() * slides.top.length) )
+    refreshBottom( Math.floor(Math.random() * slides.mid.length) )
+    refreshMid( Math.floor(Math.random() * slides.bottom.length) )  
+    
+    match ? (toggleMatch(true), changeTextArea("You Won!!")) : changeTextArea("Keep Trying!!")   
+  }
+
+   return (
+    <SafeAreaView style={styles.container}>
+      <Text>{textArea}</Text>
+      <View>
+        <Image source={slides.top[topIndex]} style={styles.image} />
+        <Image source={slides.mid[midIndex]} style={styles.image} />
+        <Image source={slides.bottom[bottomIndex]} style={styles.image} />
+      </View>
+      <Button title="Click to start game!" onPress={shuffle}/>
+      {match ? <Text>You won, play again!</Text>: <Text>{textArea}</Text>}
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    marginTop: Constants.statusBarHeight, 
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
   },
+  image: {
+    resizeMode: 'contain',
+    height: 140
+  }
 });
