@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { StyleSheet, View, Text, SafeAreaView, Button } from 'react-native'
-import MonsterSlide from './src/components/MonsterSlide'
+import MonsterSlide from './MonsterSlide'
 import Constants from 'expo-constants'
 
 export default function GamePlay() {
@@ -34,7 +34,7 @@ export default function GamePlay() {
     <SafeAreaView style={styles.container}>
       <Text> {textArea} </Text>
       <View>
-        <MonsterSlide imageSrc={head[top]}/>
+        <MonsterSlide imageSrc={top[top]}/>
         <MonsterSlide imageSrc={mid[mid]}/>
         <MonsterSlide imageSrc={bottom[bottom]}/>
       </View>
