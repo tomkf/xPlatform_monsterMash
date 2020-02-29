@@ -27,7 +27,7 @@ export default function App() {
     refreshBottom(rollDice())
     refreshMid(rollDice())  
     
-    isMatch ? (toggleMatch(true), changeTextArea("You Won!!")) : (toggleMatch(true), changeTextArea("Keep Trying!!"))   
+    isMatch ? (toggleMatch(true), changeTextArea("You Won!!")) : (toggleMatch(false), changeTextArea("Keep Trying!!"))   
   }
 
    return (
