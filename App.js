@@ -10,7 +10,7 @@ const slides = {
 
 export default function App() {
 
-  const [match, toggleMatch] = useState(false)
+  const [isMatch, toggleMatch] = useState(false)
   const [textArea, changeTextArea] = useState("")
   const [topIndex, refreshTop] = useState(0)
   const [midIndex, refreshMid] = useState(1)
@@ -18,12 +18,16 @@ export default function App() {
  
   useEffect (()=>{ bottomIndex === topIndex && midIndex === topIndex ? toggleMatch(true) : toggleMatch(false) })
 
+  const rollDice = () => {
+      return Math.floor(Math.random() * slides.top.length)
+  }
+
   const shuffle = () => {    
-    refreshTop( Math.floor(Math.random() * slides.top.length) )
-    refreshBottom( Math.floor(Math.random() * slides.mid.length) )
-    refreshMid( Math.floor(Math.random() * slides.bottom.length) )  
+    refreshTop(rollDice())
+    refreshBottom(rollDice())
+    refreshMid(rollDice())  
     
-    match ? (toggleMatch(true), changeTextArea("You Won!!")) : changeTextArea("Keep Trying!!")   
+    isMatch ? (toggleMatch(true), changeTextArea("You Won!!")) : (toggleMatch(true), changeTextArea("Keep Trying!!"))   
   }
 
    return (
@@ -35,7 +39,7 @@ export default function App() {
         <Image source={slides.bottom[bottomIndex]} style={styles.image} />
       </View>
       <Button title="Click to start game!" onPress={shuffle}/>
-      {match ? <Text>You won, play again!</Text>: <Text>{textArea}</Text>}
+      {isMatch ? <Text>You won, play again!</Text>: <Text>{textArea}</Text>}
     </SafeAreaView>
   );
 }
