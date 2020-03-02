@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { StyleSheet, View, Image, Text, SafeAreaView, Button } from 'react-native'
 import Constants from 'expo-constants'
 
@@ -16,18 +16,18 @@ export default function App() {
   const [midIndex, refreshMid] = useState(1)
   const [bottomIndex, refreshBottom] = useState(2)
  
-  useEffect (()=>{ bottomIndex === topIndex && midIndex === topIndex ? toggleMatch(true) : toggleMatch(false) })
+  const rollDice = _ => { return Math.floor(Math.random() * slides.top.length)}
 
-  const rollDice = () => {
-      return Math.floor(Math.random() * slides.top.length)
-  }
+  const verify = _ => { bottomIndex === topIndex && midIndex === topIndex ? toggleMatch(true) : toggleMatch(false) }
 
-  const shuffle = () => {    
+  const shuffle = _ => {    
     refreshTop(rollDice())
     refreshBottom(rollDice())
     refreshMid(rollDice())  
     
-    isMatch ? (toggleMatch(true), changeTextArea("You Won!!")) : (toggleMatch(false), changeTextArea("Keep Trying!!"))   
+    verify()
+
+    isMatch ? (toggleMatch(true), changeTextArea("You Won!!")) : (toggleMatch(false), changeTextArea("Keep Trying!!")) 
   }
 
    return (
